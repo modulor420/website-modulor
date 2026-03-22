@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/<your-repo-name>/', // Replace with your GitHub repo name
+  base: '/website-modulor/', // Use your actual GitHub repo name
   build: {
     outDir: 'dist'
   }
