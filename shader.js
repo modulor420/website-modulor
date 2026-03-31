@@ -31,7 +31,7 @@ const material = new THREE.MeshDepthMaterial({ wireframe: true });
 
 // --- obj ---
 const loader = new OBJLoader();
-const object = await loader.loadAsync('model-3-lod-0.obj');
+const object = await loader.loadAsync('./model-3-lod-0.obj');
 
 object.traverse((child) => {
     if (child.isMesh) child.material = material;
