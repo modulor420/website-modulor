@@ -4,22 +4,30 @@
     <link rel="icon" href="/Icon.png" type="image/x-icon" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>website-modulor</title>
+    <title>Modulor</title>
       <style>
+          * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+          }
           @font-face {
               font-family: 'AV Estiana';
               src: url('./AV Estiana-VF.otf') format('opentype');
-              font-weight: normal;
+              font-weight: 0;
               font-style: normal;
           }
       </style>
 
   </head>
+  <body id="everything">
+
   <header>
-      <img src="./modulor-signature.svg"/>
+      <img id="logo" style="padding:.25cm" src="./modulor-signature.svg"/>
   </header>
-  <body>
-  <div style="
+
+  <div id="email"
+       style="
     position: fixed;
     z-index: 9999;
     mix-blend-mode: difference;
@@ -28,23 +36,71 @@
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    padding: 20px;
-    font-family: 'AV Estiana', sans-serif;
+    font-family: 'AV Estiana';
+    font-style: normal;
     font-size: 22px;
-    /*pointer-events: none;*/
   ">
-      <a href="mailto:work@modulor.live" style="
-      color: lightgray;
+      <a href="mailto:work@modulor.live"
+         style="
+      color: #EEF1F2;
       text-decoration: none;
-      /*background: black;*/
     ">work@modulor.live</a>
   </div>
-  <div style="padding:37.5% 0 0 0;position:relative;margin-bottom:2vh;"><iframe src="https://player.vimeo.com/video/1175813169?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="CT+SFX"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-  <div style="padding:50% 0 0 0;position:relative;margin-bottom:2vh;"><iframe src="https://player.vimeo.com/video/1175823836?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="kvisa"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-  <div style="padding:42.19% 0 0 0;position:relative;margin-bottom:2vh;"><iframe src="https://player.vimeo.com/video/1175824602?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="CD"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-  <div style="padding:56.25% 0 0 0;position:relative;margin-bottom:2vh;"><iframe src="https://player.vimeo.com/video/1161899491?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="© 2026 Modulor Showreel"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-  <iframe style="border:none;" width="100%" height="590" src="https://www.are.na/ash-lynn-ffpd7tsqxgs/modulor-oq8ehcshjw0/embed" title="Gemma Copeland’s Are.na channel “Internet Explorers”"></iframe>
-  <!--    <div id="app"></div>
-    <script></script>-->
+
+  <div style="aspect-ratio:2.66/1;position:relative;margin-bottom:-1px">
+      <iframe
+              src="https://player.vimeo.com/video/1175813169?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;"
+              title="CT+SFX">
+      </iframe>
+  </div><script src="https://player.vimeo.com/api/player.js"></script>
+
+  <div style="aspect-ratio:16/9;position:relative;margin-bottom:-1px">
+      <iframe src="https://player.vimeo.com/video/1175823836?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;"
+              title="kvisa">
+      </iframe>
+  </div><script src="https://player.vimeo.com/api/player.js"></script>
+
+  <div style="padding:42.19% 0 0 0;position:relative;margin-bottom:-1px">
+      <iframe src="https://player.vimeo.com/video/1175824602?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;"
+              title="CD">
+      </iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+  <div style="aspect-ratio: 16/9;position:relative;margin-bottom:-1px">
+      <iframe src="https://player.vimeo.com/video/1161899491?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;"
+              title="© 2026 Modulor Showreel"></iframe>
+  </div><script src="https://player.vimeo.com/api/player.js"></script>
+
+  <iframe id="arena" style="zoom:1.25;color-scheme:dark;width:100%;height:50vh;margin-bottom:-1px;display:block;border:none"
+          src="https://www.are.na/ash-lynn-ffpd7tsqxgs/modulor-oq8ehcshjw0/embed">
+  </iframe>
+
+  <canvas style="display:block;margin-bottom:-1px"
+          class="webgl">
+  </canvas>
+  <script type="module" src="/shader.js"></script>
+
+  <footer style="text-align: left;
+          display: flex;
+          align-items: flex-end;
+          font-family: 'AV Estiana';
+          background-color:black;
+          font-size: 22px;
+          color: #EEF1F2;
+          bottom: 0;">
+
+      <p>© 2026 Modulor. All rights reserved.</p>
+  </footer>
   </body>
 </html>
