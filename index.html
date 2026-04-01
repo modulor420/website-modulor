@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modulor</title>
       <style>
-          /*html{*/
-          /*    !*overscroll-behavior: none;*!*/
-          /*}*/
+          html{
+              /*overscroll-behavior: none;*/
+              background-color:black;
+          }
           * {
               margin: 0;
               padding: 0;
@@ -17,15 +18,17 @@
           @font-face {
               font-family: 'AV Estiana';
               src: url('./AV Estiana-VF.otf') format('opentype');
-              font-weight: 0;
+              font-weight: 100;
               font-style: normal;
           }
       </style>
+    <link rel="preconnect" href="https://player.vimeo.com">
+    <link rel="preconnect" href="https://i.vimeocdn.com">
+</head>
 
-  </head>
   <body id="everything">
 
-  <header>
+  <header style="background-color:white; margin-bottom:-1px">
       <img id="logo" style="padding:.25cm" src="./modulor-signature.svg"/>
   </header>
 
@@ -66,48 +69,52 @@
 
   <iframe id="arena" style="
   zoom:1.25;
-  color-scheme:dark;width:100%;height:100vh;margin-bottom:-1px;display:block;border:none;overscroll-behavior: none;background-color:black"
+  color-scheme:dark;width:100%;height:75vh;margin-bottom:-1px;display:block;border:none;overscroll-behavior: none;background-color:black"
           src="https://www.are.na/ash-lynn-ffpd7tsqxgs/modulor-oq8ehcshjw0/embed">
   </iframe>
 
-  <canvas style="display:block;margin-bottom:-1px;width:100%;height:100vh"
-          class="webgl">
-  </canvas>
-  <script type="module" src="/shader.js"></script>
+  <div style="position: relative;">
+      <canvas style="display:block;width:100%;height:100vh" class="webgl"></canvas>
+      <script type="module" src="/shader.js"></script>
 
-  <div style="
-    position: sticky;
-    bottom: 1.1em;
+      <div style="
+    position: absolute;
+    bottom: 45%;
+    left: 0;
+    right: 0;
     text-align: center;
     z-index: 999;
     pointer-events: none;
-    margin-top: -50vh;
     mix-blend-mode: difference;
   ">
-      <a href="mailto:work@modulor.live" style="
+          <a href="mailto:work@modulor.live" style="
       font-family: 'AV Estiana';
       font-style: normal;
       font-size: 40px;
       font-weight: lighter;
       color: #EEF1F2;
-      background-color:black;
+      background-color: black;
       text-decoration: none;
       white-space: nowrap;
       pointer-events: all;
     ">work@modulor.live</a>
+      </div>
+
+      <footer style="
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'AV Estiana';
+    font-size: 20px;
+    font-weight: lighter;
+    color: #EEF1F2;
+    padding-bottom: 1em;
+    z-index: 999;
+  ">
+          <p style="margin: 0;">© 2026 Modulor. All rights reserved.</p>
+      </footer>
   </div>
-
-  <footer style="text-align: center;;
-          font-family: 'AV Estiana';
-          background-color:black;
-          font-size: 20px;
-          font-weight: lighter;
-          font-style: normal;
-          color: #EEF1F2;
-          bottom: 0;
-          margin-top: 42vh;">
-      <p>© 2026 Modulor. All rights reserved.</p>
-  </footer>
-
   </body>
 </html>
