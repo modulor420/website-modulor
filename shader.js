@@ -3,7 +3,7 @@ import { OBJLoader } from "three/addons";
 
 // adjustable parameters
 const MOUSE_STRENGTH = -10;
-const TILT_STRENGTH  = 0.3;
+const TILT_STRENGTH  = 10;
 const LERP_SPEED     = 1;
 const LOOK_AT        = [1, -3, 0];
 const FOG_COLOR      = 15659506;
@@ -31,27 +31,31 @@ const baseCameraPos = camera.position.clone();
 const cameraOffset = new Vector3();
 const targetOffset = new Vector3();
 
-window.addEventListener('pointermove', (e) => {
-    targetOffset.x =  ((e.clientX / innerWidth)  * 2 - 1) * MOUSE_STRENGTH;
-    targetOffset.y = -((e.clientY / innerHeight) * 2 - 1) * MOUSE_STRENGTH;
-});
+const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-const handleOrientation = (e) => {
-    targetOffset.x = ((e.gamma || 0) / 90) * TILT_STRENGTH;
-    targetOffset.y = (((e.beta || 0) - 45) / 90) * TILT_STRENGTH;
-};
-
-if (typeof DeviceOrientationEvent !== 'undefined' &&
-    typeof DeviceOrientationEvent.requestPermission === 'function') {
-    const req = () => {
-        DeviceOrientationEvent.requestPermission().then(s => {
-            if (s === 'granted') addEventListener('deviceorientation', handleOrientation);
-        });
-        removeEventListener('pointerdown', req);
+if (isMobile) {
+    const handleOrientation = (e) => {
+        targetOffset.x = ((e.gamma || 0) / 90) * TILT_STRENGTH;
+        targetOffset.y = (((e.beta || 0) - 45) / 90) * TILT_STRENGTH;
     };
-    addEventListener('pointerdown', req);
+
+    if (typeof DeviceOrientationEvent !== 'undefined' &&
+        typeof DeviceOrientationEvent.requestPermission === 'function') {
+        const req = () => {
+            DeviceOrientationEvent.requestPermission().then(s => {
+                if (s === 'granted') addEventListener('deviceorientation', handleOrientation);
+            });
+            removeEventListener('pointerdown', req);
+        };
+        addEventListener('pointerdown', req);
+    } else {
+        addEventListener('deviceorientation', handleOrientation);
+    }
 } else {
-    addEventListener('deviceorientation', handleOrientation);
+    addEventListener('pointermove', (e) => {
+        targetOffset.x =  ((e.clientX / innerWidth)  * 2 - 1) * MOUSE_STRENGTH;
+        targetOffset.y = -((e.clientY / innerHeight) * 2 - 1) * MOUSE_STRENGTH;
+    });
 }
 
 scene.background = new Color(0x000000);
