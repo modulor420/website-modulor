@@ -1,65 +1,37 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, MeshBasicMaterial, Box3, Vector3, Color, Fog, MathUtils, Clock } from "three";
+import { WebGLRenderer, Scene, PerspectiveCamera, MeshBasicMaterial, Box3, Vector3, Color, Fog, Clock } from "three";
 import { OBJLoader } from "three/addons";
-
-// adjustable parameters
-const MOUSE_STRENGTH = -10;
-const TILT_STRENGTH  = 10;
-const LERP_SPEED     = 1;
-const LOOK_AT        = [1, -3, 0];
-const FOG_COLOR      = 15659506;
-const FOG_NEAR       = 1;
-const FOG_FAR        = 10;
 
 const canvas = document.querySelector('.webgl');
 const scene = new Scene();
 const renderer = new WebGLRenderer({ canvas, antialias: true });
-const camera = new PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.001, 100);
+const camera = new PerspectiveCamera(75, 1, 0.001, 100);
 
 const object = await new OBJLoader().loadAsync('./model-3-lod-0.obj');
-const material = new MeshBasicMaterial({ wireframe: true, color: 0x000000 });
-object.traverse(c => c.isMesh && (c.material = material));
+object.traverse(c => c.isMesh && (c.material = new MeshBasicMaterial({ wireframe: true, color: 0x000000 })));
 object.scale.setScalar(.25);
+object.position.sub(new Box3().setFromObject(object).getCenter(new Vector3()));
 scene.add(object);
 
-const box = new Box3().setFromObject(object);
-object.position.sub(box.getCenter(new Vector3()));
-
-camera.position.set(0, 0, 0);
-camera.lookAt(...LOOK_AT);
-
-const baseCameraPos = camera.position.clone();
-const cameraOffset = new Vector3();
-const targetOffset = new Vector3();
-
-const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-if (isMobile) {
-    const handleOrientation = (e) => {
-        targetOffset.x = ((e.gamma || 0) / 90) * TILT_STRENGTH;
-        targetOffset.y = (((e.beta || 0) - 45) / 90) * TILT_STRENGTH;
-    };
-
-    if (typeof DeviceOrientationEvent !== 'undefined' &&
-        typeof DeviceOrientationEvent.requestPermission === 'function') {
-        const req = () => {
-            DeviceOrientationEvent.requestPermission().then(s => {
-                if (s === 'granted') addEventListener('deviceorientation', handleOrientation);
-            });
-            removeEventListener('pointerdown', req);
-        };
-        addEventListener('pointerdown', req);
-    } else {
-        addEventListener('deviceorientation', handleOrientation);
-    }
-} else {
-    addEventListener('pointermove', (e) => {
-        targetOffset.x =  ((e.clientX / innerWidth)  * 2 - 1) * MOUSE_STRENGTH;
-        targetOffset.y = -((e.clientY / innerHeight) * 2 - 1) * MOUSE_STRENGTH;
-    });
-}
-
+camera.lookAt(1, -3, 0);
 scene.background = new Color(0x000000);
-scene.fog = new Fog(FOG_COLOR, FOG_NEAR, FOG_FAR);
+scene.fog = new Fog(0x999999, 1, 10);
+
+const velocity = new Vector3();
+const addMove = (dx, dy) => {
+    velocity.x -= dx / window.innerWidth * 4;
+    velocity.z -= dy / window.innerHeight * 10;
+};
+
+addEventListener('mousemove', e => addMove(e.movementX, e.movementY));
+
+let lastTouch = null;
+addEventListener('touchstart', e => lastTouch = e.touches[0], { passive: true });
+addEventListener('touchmove', e => {
+    const t = e.touches[0];
+    if (lastTouch) addMove(t.clientX - lastTouch.clientX, t.clientY - lastTouch.clientY);
+    lastTouch = t;
+}, { passive: true });
+addEventListener('touchend', () => lastTouch = null);
 
 const updateSize = () => {
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
@@ -73,12 +45,10 @@ updateSize();
 const clock = new Clock();
 (function animate() {
     const dt = clock.getDelta();
-    cameraOffset.lerp(targetOffset, 1 - Math.exp(-LERP_SPEED * dt));
-    camera.position.copy(baseCameraPos);
-    camera.lookAt(...LOOK_AT);
-    camera.translateX(cameraOffset.x);
-    camera.translateY(cameraOffset.y);
-    object.rotation.y += 0.05 * dt;
+    object.rotation.y += 0.02 * dt;
+    camera.translateX(velocity.x * dt);
+    camera.translateZ(velocity.z * dt);
+    velocity.multiplyScalar(Math.exp(-4 * dt));
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
 })();
