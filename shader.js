@@ -77,7 +77,7 @@ const clock = new Clock();
     camera.position.copy(baseCameraPos);
     camera.lookAt(...LOOK_AT);
     camera.translateX(cameraOffset.x);
-    camera.translateZ(-cameraOffset.y);
+    camera.translateY(cameraOffset.y);
     object.rotation.y += 0.05 * dt;
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
