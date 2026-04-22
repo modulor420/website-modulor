@@ -1,80 +1,80 @@
-import * as THREE from "three";
+import { WebGLRenderer, Scene, PerspectiveCamera, MeshBasicMaterial, Box3, Vector3, Color, Fog, MathUtils, Clock } from "three";
 import { OBJLoader } from "three/addons";
-// import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-// config & setup
+// adjustable parameters
+const MOUSE_STRENGTH = -10;
+const TILT_STRENGTH  = 0.3;
+const LERP_SPEED     = 1;
+const LOOK_AT        = [1, -3, 0];
+const FOG_COLOR      = 15659506;
+const FOG_NEAR       = 1;
+const FOG_FAR        = 10;
+
 const canvas = document.querySelector('.webgl');
-const scene = new THREE.Scene();
+const scene = new Scene();
+const renderer = new WebGLRenderer({ canvas, antialias: true });
+const camera = new PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.001, 100);
 
-// renderer
-const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias:true});
-
-// camera
-const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.001, 100);
-
-// controls
-// const controls = new OrbitControls(camera, canvas);
-// controls.enableDamping = true;
-// controls.dampingFactor = 0.05;
-// controls.enableZoom = false;
-
-// material
-const material = new THREE.MeshBasicMaterial({
-    wireframe: true, color: 0x000000 });
-
-// obj loading
-const loader = new OBJLoader();
-const object = await loader.loadAsync('./model-3-lod-0.obj');
-
-object.traverse(child => child.isMesh && (child.material = material));
-object.scale.set(.25,.25,.25);
-// object.rotateOnAxis(new THREE.Vector3(1, 0, -1).normalize(), Math.PI / 2);
-
+const object = await new OBJLoader().loadAsync('./model-3-lod-0.obj');
+const material = new MeshBasicMaterial({ wireframe: true, color: 0x000000 });
+object.traverse(c => c.isMesh && (c.material = material));
+object.scale.setScalar(.25);
 scene.add(object);
 
-const box = new THREE.Box3().setFromObject(object);
-const center = box.getCenter(new THREE.Vector3());
-const size   = box.getSize(new THREE.Vector3());
+const box = new Box3().setFromObject(object);
+object.position.sub(box.getCenter(new Vector3()));
 
-object.position.sub(center);
+camera.position.set(0, 0, 0);
+camera.lookAt(...LOOK_AT);
 
-const maxDim = Math.max(size.x, size.y, size.z);
-const fovRad = THREE.MathUtils.degToRad(camera.fov);
-const dist   = (maxDim / 2) / Math.tan(fovRad / 2);
+const baseCameraPos = camera.position.clone();
+const cameraOffset = new Vector3();
+const targetOffset = new Vector3();
 
-camera.position.set(0, 0, dist*0);
-camera.lookAt(1, -3, 0);
-//fog
-scene.background = new THREE.Color(0x000000);
-scene.fog = new THREE.Fog(15659506, 1, 10);
+window.addEventListener('pointermove', (e) => {
+    targetOffset.x =  ((e.clientX / innerWidth)  * 2 - 1) * MOUSE_STRENGTH;
+    targetOffset.y = -((e.clientY / innerHeight) * 2 - 1) * MOUSE_STRENGTH;
+});
 
-// responsiveness
-const updateSize = () => {
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(width, height, false);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const handleOrientation = (e) => {
+    targetOffset.x = ((e.gamma || 0) / 90) * TILT_STRENGTH;
+    targetOffset.y = (((e.beta || 0) - 45) / 90) * TILT_STRENGTH;
 };
-window.addEventListener('resize', updateSize);
+
+if (typeof DeviceOrientationEvent !== 'undefined' &&
+    typeof DeviceOrientationEvent.requestPermission === 'function') {
+    const req = () => {
+        DeviceOrientationEvent.requestPermission().then(s => {
+            if (s === 'granted') addEventListener('deviceorientation', handleOrientation);
+        });
+        removeEventListener('pointerdown', req);
+    };
+    addEventListener('pointerdown', req);
+} else {
+    addEventListener('deviceorientation', handleOrientation);
+}
+
+scene.background = new Color(0x000000);
+scene.fog = new Fog(FOG_COLOR, FOG_NEAR, FOG_FAR);
+
+const updateSize = () => {
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+};
+addEventListener('resize', updateSize);
 updateSize();
 
-// loop
-const clock = new THREE.Clock();
-
-const animate = () => {
-    const delta = clock.getDelta();
-
-    // object.rotation.x += 0.05 * delta;
-    object.rotation.y += 0.05 * delta;
-
-    // controls.update();
+const clock = new Clock();
+(function animate() {
+    const dt = clock.getDelta();
+    cameraOffset.lerp(targetOffset, 1 - Math.exp(-LERP_SPEED * dt));
+    camera.position.copy(baseCameraPos);
+    camera.lookAt(...LOOK_AT);
+    camera.translateX(cameraOffset.x);
+    camera.translateZ(-cameraOffset.y);
+    object.rotation.y += 0.05 * dt;
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
-};
-animate();
+})();
