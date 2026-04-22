@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="icon" href="./assets/Icon-BgnAt8R1.png" type="image/x-icon" />
     <meta charset="UTF-8" />
@@ -24,10 +24,10 @@
       </style>
     <link rel="preconnect" href="https://player.vimeo.com">
     <link rel="preconnect" href="https://i.vimeocdn.com">
-  <script type="module" crossorigin src="./assets/index-CLfBvsI1.js"></script>
+  <script type="module" crossorigin src="./assets/index-B3S5KQ_O.js"></script>
 </head>
 
-  <body id="everything">
+  <body id="everything" style="padding-bottom: 100vh; position: relative; z-index: 1;">
 
   <header style="background-color:white; margin-bottom:-1px">
       <img id="logo" style="padding:.25cm" src="./assets/modulor-signature-BB1-tp5-.svg"/>
@@ -52,7 +52,7 @@
       </iframe>
   </div>
 
-  <div style="padding:42.19% 0 0 0;position:relative;margin-bottom:-1px">
+  <div style="aspect-ratio:2.37/1;position:relative;margin-bottom:-1px">
       <iframe src="https://player.vimeo.com/video/1175824602?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
@@ -69,52 +69,73 @@
   </div><script src="https://player.vimeo.com/api/player.js"></script>
 
   <iframe id="arena" style="
-  zoom:1.25;
-  color-scheme:dark;width:100%;height:75vh;margin-bottom:-1px;display:block;border:none;overscroll-behavior: none;background-color:black"
+  zoom: 1.25;
+  transform-origin: top left;
+  width: 100%;
+  color-scheme:dark;height:75vh;margin-bottom:-1px;display:block;border:none;overscroll-behavior: none;background-color:black"
           src="https://www.are.na/ash-lynn-ffpd7tsqxgs/modulor-oq8ehcshjw0/embed">
   </iframe>
 
-  <div style="position: relative;">
-      <canvas style="display:block;width:100%;height:100vh" class="webgl"></canvas>
+<!--  <iframe src="https://modulor-list.notion.site/ebd//2c47b6d4d93f80b99373e7e89c853970" width="100%" height="600" frameborder="0" allowfullscreen >-->
 
-      <div style="
-    position: absolute;
-    bottom: 45%;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 999;
-    pointer-events: none;
-    mix-blend-mode: difference;
-  ">
-          <a href="mailto:work@modulor.live" style="
-      font-family: 'AV Estiana';
-      font-style: normal;
-      font-size: 40px;
-      font-weight: lighter;
-      color: #EEF1F2;
-      background-color: black;
-      text-decoration: none;
-      white-space: nowrap;
-      pointer-events: all;
-    ">↗work@modulor.live</a>
-      </div>
+  </iframe>
 
-      <footer style="
-    position: absolute;
+  <footer style="
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    text-align: center;
-    font-family: 'AV Estiana';
-    font-size: 20px;
-    font-weight: lighter;
-    color: #EEF1F2;
-    /*padding-bottom: 1em;*/
-    z-index: 999;
+    height: 100vh;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.2s ease;
   ">
-          <p>© 2026 Modulor. All rights reserved.</p>
-      </footer>
-  </div>
+      <div style="position: relative; width: 100%; height: 100%;">
+          <canvas style="display:block;width:100%;height:100%" class="webgl"></canvas>
+
+          <div style="
+        position: absolute;
+        bottom: 45%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        pointer-events: none;
+        mix-blend-mode: difference;
+      ">
+              <a href="mailto:work@modulor.live" style="
+          font-family: 'AV Estiana';
+          font-style: normal;
+          font-size: clamp(40px, 5vw, 60px);
+          font-weight: lighter;
+          color: #EEF1F2;
+          background-color: black;
+          text-decoration: none;
+          white-space: nowrap;
+          pointer-events: all;
+        ">↗work@modulor.live</a>
+          </div>
+
+          <p style="
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: 'AV Estiana';
+        font-size: clamp(15px, 2.5vw, 20px);
+        font-weight: lighter;
+        color: #EEF1F2;
+        padding-bottom: 1em;
+        mix-blend-mode: difference;
+        pointer-events: none;
+      ">© 2026 Modulor. All rights reserved.</p>
+      </div>
+  </footer>
+
+  <script>
+    window.addEventListener('load', function () {
+      document.querySelector('footer').style.opacity = '1';
+    });
+  </script>
   </body>
 </html>
