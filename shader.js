@@ -6,20 +6,20 @@ const scene = new Scene();
 const renderer = new WebGLRenderer({ canvas, antialias: true });
 const camera = new PerspectiveCamera(75, 1, 0.001, 100);
 
+scene.background = new Color(0x000000);
+scene.fog = new Fog(0x999999, 1, 10);
+camera.lookAt(1, -3, 0);
+
 const object = await new OBJLoader().loadAsync('./model-3-lod-0.obj');
 object.traverse(c => c.isMesh && (c.material = new MeshBasicMaterial({ wireframe: true, color: 0x000000 })));
 object.scale.setScalar(.25);
 object.position.sub(new Box3().setFromObject(object).getCenter(new Vector3()));
 scene.add(object);
 
-camera.lookAt(1, -3, 0);
-scene.background = new Color(0x000000);
-scene.fog = new Fog(0x999999, 1, 10);
-
 const velocity = new Vector3();
 const addMove = (dx, dy) => {
-    velocity.x -= dx / window.innerWidth * 4;
-    velocity.z -= dy / window.innerHeight * 10;
+    velocity.x -= dx / innerWidth * 4;
+    velocity.z -= dy / innerHeight * 10;
 };
 
 addEventListener('mousemove', e => addMove(e.movementX, e.movementY));
