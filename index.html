@@ -55,7 +55,7 @@
             background: rgba(0,0,0,0.5); backdrop-filter: blur(60px);
             display: flex; align-items: center; justify-content: center;
             padding: 20px; text-align: center; visibility: hidden; opacity: 0;
-            transition: opacity 0.2s, visibility 0.2s; font-size: 16px;
+            transition: opacity 0.2s, visibility 0.2s; font-size: clamp(14px, 2vw, 16px);
         }
         body.info-open #info { opacity: 1; visibility: visible; }
         #info::before {
