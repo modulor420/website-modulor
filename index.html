@@ -1,140 +1,172 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
-    <link rel="icon" href="./assets/Icon-BgnAt8R1.png" type="image/x-icon" />
+    <link rel="icon" href="./assets/Icon-BgnAt8R1.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modulor</title>
-      <style>
-          html{
-              overscroll-behavior: none;
-              background-color:black;
-          }
-          * {
-              margin: 0;
-              padding: 0;
-              box-sizing: border-box;
-              font-synthesis: none;
-          }
-          @font-face {
-              font-family: 'AV Estiana';
-              src: url('./assets/AVEstiana-Light-O8qtIHHn.woff2') format('woff2');
-              font-style: normal;
-          }
-      </style>
-    <link rel="preconnect" href="https://player.vimeo.com">
-    <link rel="preconnect" href="https://i.vimeocdn.com">
-  <script type="module" crossorigin src="./assets/index-BP4rfLkC.js"></script>
+    <style>
+        @font-face {
+            font-family: 'AV';
+            src: url('./assets/AVEstiana-Light-O8qtIHHn.woff2') format('woff2');
+        }
+
+        /*global*/
+        * { margin: 0; padding: 0; box-sizing: border-box; font-synthesis: none; }
+        html { overscroll-behavior: none; background: #000; user-select: none; }
+        body { padding-bottom: 100vh; position: relative; z-index: 1; }
+        body.info-open { overflow: hidden; }
+
+        /*typography*/
+        nav, .mail a, .copyright, #info, .services, .links, .e {
+            font-family: 'AV';
+            color: #EEF1F2;
+        }
+        nav, .mail, .copyright { mix-blend-mode: difference; }
+
+        /*nav*/
+        nav {
+            position: fixed; inset: 0 0 auto 0; z-index: 10;
+            display: flex; padding: 10px 20px 0;
+            user-select: none; transition: opacity 0.2s;
+        }
+        nav * { font-size: 16px; }
+        nav a { color: inherit; text-decoration: none; pointer-events: auto; }
+        .hidden * { pointer-events: none !important; }
+        #clock, #tagline { margin-right: 4em; }
+        #tagline { min-width: 13em; display: inline-block; }
+        .menu { margin-left: auto; text-align: right; min-width: 6em; }
+        .menu a + a { margin-left: 2em; }
+
+        /*header*/
+        header { background: #fff; position: relative; overflow: hidden; margin-bottom: -1px; }
+        #logo { padding: .25cm; }
+
+        /*reel*/
+        .reel { display: flex; flex-direction: column; background: #000; }
+        .video { position: relative; margin-bottom: -1px; }
+        .video:first-child { margin-top: -1px; }
+        .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+        #arena { width: 100%; height: 75vh; border: none; zoom: 1.25; transform-origin: top left; }
+
+        /*info*/
+        #info {
+            position: fixed; inset: 0; z-index: 2;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(60px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px; text-align: center; visibility: hidden; opacity: 0;
+            transition: opacity 0.2s, visibility 0.2s; font-size: 16px;
+        }
+        body.info-open #info { opacity: 1; visibility: visible; }
+        #info::before {
+            content: ""; position: absolute; inset: 0 0 auto 0; height: 25vh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+        #close { position: fixed; top: 50%; right: 20px; transform: translateY(-50%); background: none; border: none; cursor: pointer; }
+        #close svg { stroke: #fff; stroke-width: 1.5; transform: scale(1.2); }
+        .services, .links, .e { max-width: 200px; text-align: start; }
+        #details {
+            position: absolute;
+            bottom: 20px;left: 20px;right: 20px;display: flex;flex-wrap: wrap-reverse;align-items: flex-start;gap: 4em;
+            text-align: left;
+        }
+        #content { padding-right: 40px; }
+        .links { max-width: 100px; }
+        .links a, .e { display: block; color: inherit; text-decoration: none; }
+
+        /*footer*/
+        footer { position: fixed; inset: auto 0 0 0; height: 100vh; z-index: -1; opacity: 0; transition: opacity 0.2s; }
+        footer > div {height: 100%;width: 100%;position: relative;}
+        .webgl { display: block; width: 100%; height: 100%; }
+        .mail { position: absolute; bottom: 45%; width: 100%; text-align: center; }
+        .mail a { font-size: clamp(40px, 5vw, 100px); font-weight: 300; background: #000; text-decoration: none; }
+        .copyright { position: absolute; bottom: 0; width: 100%; text-align: center; padding-bottom: 1em; font-size: 16px; }
+
+        /*mobile*/
+        @media (max-width: 700px) {
+            #clock, #tagline { margin-right: 1em; }
+            #tagline { min-width: 0; }
+            .menu a + a { margin-left: 1em; }
+        }
+        @media (max-width: 480px) { #tagline { display: none; } }
+    </style>
+  <script type="module" crossorigin src="./assets/index-C6-LBhet.js"></script>
 </head>
+<body>
 
-  <body id="everything" style="padding-bottom: 100vh; position: relative; z-index: 1;">
+<nav>
+    <span id="clock">T.--:-- UTC-3</span>
+    <span id="tagline">New Media &amp; Art Direction EST.2020</span>
+    <span class="menu">
+        <a href="#" id="info-toggle">info.</a>
+        <a href="mailto:work@modulor.live">contact</a>
+    </span>
+</nav>
 
-  <header style="background-color:white; margin-bottom:-1px">
-      <img id="logo" style="padding:.25cm" src="./assets/modulor-signature-BB1-tp5-.svg"/>
-  </header>
+<header>
+    <img id="logo" src="./assets/modulor-signature-BB1-tp5-.svg" alt="Modulor" />
+</header>
 
-  <div style="display:flex;flex-direction:column;background-color:black;">
+<div class="reel">
+    <div class="video" style="aspect-ratio:2.66/1"><iframe src="https://player.vimeo.com/video/1175813169?badge=0&amp;autopause=0"></iframe></div>
+    <div class="video" style="aspect-ratio:16/9"><iframe src="https://player.vimeo.com/video/1175823836?badge=0&amp;autopause=0"></iframe></div>
+    <div class="video" style="aspect-ratio:2.37/1"><iframe src="https://player.vimeo.com/video/1175824602?badge=0&amp;autopause=0"></iframe></div>
+    <div class="video" style="aspect-ratio:16/9"><iframe src="https://player.vimeo.com/video/1161899491?badge=0&amp;autopause=0"></iframe></div>
+    <iframe id="arena" src="https://www.are.na/ash-lynn-ffpd7tsqxgs/modulor-oq8ehcshjw0/embed"></iframe>
+</div>
 
-  <div style="aspect-ratio:2.66/1;position:relative;margin-bottom:-1px;margin-top:-1px">
-      <iframe
-              src="https://player.vimeo.com/video/1175813169?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              style="position:absolute;top:0;left:0;width:100%;height:100%;"
-              title="CT+SFX">
-      </iframe>
-  </div>
+<section id="info">
+    <button id="close" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+    </button>
+    <p id="content">Modulor — Independent creative practice & studio by Ash&nbsp;Lynn.<br>Inspired by emerging technologies we craft visual systems & experiences for live events — working with space, light & sound.</p>
+    <div id="details">
+        <p class="services">Services<br><br>Art&nbsp;Direction Digital&nbsp;Scenography Motion&nbsp;Design Visual&nbsp;Effects Experiential&nbsp;Design</p>
+        <p class="links">Links<br><br><br><a href="https://www.are.na/ash-lynn-ffpd7tsqxgs/modulor-oq8ehcshjw0">↗Are.na</a><a href="https://github.com/modulor420">↗GitHub</a><a href="https://vimeo.com/mmoodduulloorr">↗Vimeo</a><a href="https://www.instagram.com/modulor______/">↗Instagram</a></p>
+        <a class="e" href="mailto:work@modulor.live">E: work@modulor.live</a>
+    </div>
+</section>
 
-  <div style="aspect-ratio:16/9;position:relative;margin-bottom:-1px">
-      <iframe src="https://player.vimeo.com/video/1175823836?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              style="position:absolute;top:0;left:0;width:100%;height:100%;"
-              title="kvisa">
-      </iframe>
-  </div>
+<footer>
+    <div>
+        <canvas class="webgl"></canvas>
+        <div class="mail"><a href="mailto:work@modulor.live">↗work@modulor.live</a></div>
+        <p class="copyright">© 2026 Modulor. All rights reserved.</p>
+    </div>
+</footer>
 
-  <div style="aspect-ratio:2.37/1;position:relative;margin-bottom:-1px">
-      <iframe src="https://player.vimeo.com/video/1175824602?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              style="position:absolute;top:0;left:0;width:100%;height:100%;"
-              title="CD">
-      </iframe></div>
+<script>
+    const setVisible = (el, visible) => {
+        el.style.opacity = visible ? '1' : '0';
+        el.classList.toggle('hidden', !visible);
+    };
 
-  <div style="aspect-ratio: 16/9;position:relative;margin-bottom:-1px">
-      <iframe src="https://player.vimeo.com/video/1161899491?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              style="position:absolute;top:0;left:0;width:100%;height:100%;"
-              title="© 2026 Modulor Showreel"></iframe>
-  </div><script src="https://player.vimeo.com/api/player.js"></script>
-
-  <iframe id="arena" style="
-  zoom: 1.25;
-  transform-origin: top left;
-  width: 100%;
-  color-scheme:dark;height:75vh;display:block;border:none;overscroll-behavior: none;background-color:black"
-          src="https://www.are.na/ash-lynn-ffpd7tsqxgs/modulor-oq8ehcshjw0/embed">
-  </iframe>
-  </div>
-
-  <footer style="
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100vh;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  ">
-      <div style="position: relative; width: 100%; height: 100%;">
-          <canvas style="display:block;width:100%;height:100%" class="webgl"></canvas>
-
-          <div style="
-        position: absolute;
-        bottom: 45%;
-        left: 0;
-        right: 0;
-        text-align: center;
-        pointer-events: none;
-        mix-blend-mode: difference;
-      ">
-              <a href="mailto:work@modulor.live" style="
-          font-family: 'AV Estiana';
-          font-style: normal;
-          font-size: clamp(40px, 5vw, 100px);
-          font-weight: lighter;
-          color: #EEF1F2;
-          background-color: black;
-          text-decoration: none;
-          white-space: nowrap;
-          pointer-events: all;
-        ">↗work@modulor.live</a>
-          </div>
-
-          <p style="
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-family: 'AV Estiana';
-        font-size: clamp(15px, 2.5vw, 20px);
-        font-weight: lighter;
-        color: #EEF1F2;
-        padding-bottom: 1em;
-        mix-blend-mode: difference;
-        pointer-events: none;
-      ">© 2026 Modulor. All rights reserved.</p>
-      </div>
-  </footer>
-
-  <script>
-    window.addEventListener('load', function () {
-      document.querySelector('footer').style.opacity = '1';
+    addEventListener('load', () => setVisible(document.querySelector('footer'), true));
+    addEventListener('scroll', () => {
+        const atBottom = innerHeight + scrollY >= document.body.scrollHeight - 1;
+        setVisible(document.querySelector('nav'), !atBottom);
     });
-  </script>
-  </body>
+
+    {
+        const clockEl = document.getElementById('clock');
+        const fmt = new Intl.DateTimeFormat('en-GB', {
+            timeZone: 'Asia/Jerusalem', hour: '2-digit', minute: '2-digit',
+            hour12: false, timeZoneName: 'shortOffset'
+        });
+        const tick = () => {
+            const p = Object.fromEntries(fmt.formatToParts().map(x => [x.type, x.value]));
+            const tz = p.timeZoneName === 'GMT' ? 'UTC+0' : p.timeZoneName.replace('GMT', 'UTC');
+            clockEl.textContent = `T.${p.hour}:${p.minute} ${tz}`;
+        };
+        tick(); setInterval(tick, 1000);
+    }
+
+    document.getElementById('info-toggle').onclick = e => {
+        e.preventDefault();
+        document.body.classList.toggle('info-open');
+    };
+    document.getElementById('close').onclick = () => document.body.classList.remove('info-open');
+    document.getElementById('info').onclick = e => { if (e.target.id === 'info') document.body.classList.remove('info-open'); };
+</script>
+</body>
 </html>
