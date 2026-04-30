@@ -4,7 +4,32 @@
     <link rel="icon" href="./assets/Icon-BgnAt8R1.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modulor</title>
+    <meta name="description" content="Independent creative practice &amp; agency by Ash Lynn.">
+    <title>Modulor.live</title>
+    <meta property="og:title" content="Modulor.live — New Media &amp; Art Direction EST.2020">
+    <meta property="og:description" content="Independent creative practice &amp; agency by Ash Lynn.">
+    <meta property="og:image" content="https://modulor.live/Icon.png">
+    <meta property="og:url" content="https://modulor.live">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "name": "Modulor.live",
+            "creator": {
+                "@type": "Person",
+                "name": "Ash Lynn"
+            },
+            "description": "Independent creative practice & agency specializing in art direction, new media, digital design, and visual systems for live events.",
+            "url": "https://modulor.live",
+            "sameAs": [
+                "https://www.instagram.com/modulor______/",
+                "https://vimeo.com/mmoodduulloorr",
+                "https://github.com/modulor420"
+            ]
+        }
+    </script>
+
     <style>
         @font-face {
             font-family: 'AV';
@@ -30,7 +55,7 @@
             display: flex; padding: 10px 20px 0;
             user-select: none; transition: opacity 0.2s;
         }
-        /*nav * { font-size: 16px; }*/
+        nav * { font-size: 16px; }
         nav a { color: inherit; text-decoration: none; pointer-events: auto; }
         .hidden * { pointer-events: none !important; }
         #clock, #tagline { margin-right: 4em; }
@@ -80,7 +105,7 @@
         .webgl { display: block; width: 100%; height: 100%; }
         .mail { position: absolute; bottom: 45%; width: 100%; text-align: center; }
         .mail a { font-size: clamp(40px, 5vw, 100px); font-weight: 300; background: #000; text-decoration: none; }
-        .copyright { position: absolute; bottom: 0; width: 100%; text-align: center; padding-bottom: 1em; font-size: 16px; }
+        .copyright { position: absolute; bottom: 0; width: 100%; text-align: center; padding-bottom: 1em;}
 
         /*mobile*/
         @media (max-width: 700px) {
@@ -120,7 +145,7 @@
     <button id="close" aria-label="Close">
         <svg viewBox="0 0 24 24" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
     </button>
-    <p id="content">Modulor — Independent creative practice & agency by Ash&nbsp;Lynn.<br>Inspired by emerging technologies we craft visual systems & experiences for live events — working with space, light & sound.</p>
+    <p id="content">Modulor.live — Independent creative practice & agency by Ash&nbsp;Lynn.<br>Inspired by emerging technologies we craft visual systems & experiences for live events — working with space, light & sound.</p>
     <div id="details">
         <p class="services">Services<br><br>Art&nbsp;Direction Motion&nbsp;Design Visual&nbsp;Effects Web&nbsp;Design Digital&nbsp;Scenography Exhibition&nbsp;Design</p>
         <p class="links">Links<br><br><br><br><a href="https://www.are.na/ash-lynn-ffpd7tsqxgs/modulor-oq8ehcshjw0">↗Are.na</a><a href="https://github.com/modulor420">↗GitHub</a><a href="https://vimeo.com/mmoodduulloorr">↗Vimeo</a><a href="https://www.instagram.com/modulor______/">↗Instagram</a></p>
@@ -157,7 +182,7 @@
         const tick = () => {
             const p = Object.fromEntries(fmt.formatToParts().map(x => [x.type, x.value]));
             const tz = p.timeZoneName === 'GMT' ? 'UTC+0' : p.timeZoneName.replace('GMT', 'UTC');
-            clockEl.textContent = `T.${p.hour}:${p.minute} ${tz}`;
+            clockEl.innerHTML = `T.${p.hour}<span style="opacity:${new Date().getSeconds() % 2}">:</span>${p.minute} ${tz}`;
         };
         tick(); setInterval(tick, 1000);
     }
